@@ -52,3 +52,49 @@ $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         background-color: $delete-color;
     }
 }
+
+// ===== STYLES FOR READ-ONLY MODE =====
+:host ::ng-deep {
+    .mat-form-field-disabled {
+
+        // Làm cho text của input trông như text bình thường
+        .mat-input-element {
+            color: $text-primary;
+            -webkit-text-fill-color: $text-primary; // For Chrome
+        }
+
+        // Bỏ gạch chân của mat-select
+        .mat-mdc-select-value {
+            color: $text-primary;
+        }
+
+        .mat-mdc-select-arrow {
+            display: none; // Ẩn mũi tên dropdown
+        }
+
+        // Bỏ border của input outline
+        .mdc-notched-outline>* {
+            border-color: transparent !important;
+        }
+    }
+
+    // Vô hiệu hóa click cho checkbox
+    .mat-mdc-checkbox.mat-mdc-checkbox-disabled {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    // Ẩn các nút không cần thiết ở chế độ read-only
+    .unit-input-group,
+    .barcode-input-group {
+
+        .mat-icon-button,
+        .add-unit-btn {
+            display: none;
+        }
+    }
+
+    .image-upload-area {
+        pointer-events: none; // Không cho click vào ảnh
+    }
+}

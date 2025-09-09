@@ -21,7 +21,10 @@ export class ProductFormComponent implements OnInit {
     @Input() mode: 'create' | 'edit' = 'create';
     // Dữ liệu ban đầu khi ở chế độ edit, null khi tạo mới
     @Input() initialData: Product | null = null;
+    // Chế độ chỉ đọc (read-only)
+    @Input() isReadOnly: boolean = false;
 
+    // Sự kiện khi form được submit
     @Output() formSubmit = new EventEmitter<Product>();
 
     productForm!: FormGroup;
@@ -29,7 +32,9 @@ export class ProductFormComponent implements OnInit {
     selectedImagePreview: string | null = null;
     selectedFile: File | null = null;
 
-    // Categories data
+    /**
+     * Danh sách các tùy chọn danh mục sản phẩm
+     */
     categories: CategoryOption[] = [
         { value: 'shoes', label: 'Giày dép cho bé' },
         { value: 'clothing', label: 'Quần áo trẻ em' },
@@ -45,18 +50,53 @@ export class ProductFormComponent implements OnInit {
         private productService: ProductService
     ) { }
 
+    /**
+     * Khởi tạo component, thiết lập form và nếu ở chế độ 'create' thì sinh mã vạch mới.
+     * @return void
+     */
     ngOnInit(): void {
+
         this.initializeForm();
         if (this.mode === 'create') {
             this.generateBarcode();
         }
+        // Nếu là chế độ chỉnh sửa, bật chế độ chỉnh sửa cho form
+        this.toggleFormState();
     }
+    /**
+     * Xử lý khi có sự thay đổi ở các Input properties.
+     * Nếu initialData thay đổi và không null, populate form với dữ liệu này.
+     * Nếu isReadOnly thay đổi, bật/tắt trạng thái read-only của form.
+     * @param changes Đối tượng chứa các thay đổi
+     * @returns void
+     */
     ngOnChanges(changes: SimpleChanges): void {
-        // Kiểm tra nếu 'initialData' thay đổi và có giá trị
         if (changes['initialData'] && this.initialData) {
             this.populateForm(this.initialData);
         }
+        // Kiểm tra nếu 'isReadOnly' thay đổi (sau lần khởi tạo đầu tiên)
+        if (changes['isReadOnly'] && !changes['isReadOnly'].firstChange) {
+            this.toggleFormState();
+        }
     }
+    /**
+     * Bật/tắt trạng thái read-only của form dựa trên giá trị của isReadOnly.
+     * @returns void
+     */
+    private toggleFormState(): void {
+        if (!this.productForm) return;
+
+        if (this.isReadOnly) {
+            this.productForm.disable(); // Vô hiệu hóa toàn bộ form
+        } else {
+            this.productForm.enable(); // Kích hoạt lại toàn bộ form
+        }
+    }
+    /**
+     * Điền dữ liệu vào form dựa trên đối tượng Product.
+     * @param product Dữ liệu sản phẩm để điền vào form
+     * @returns void
+     */
     private populateForm(product: Product): void {
         this.productForm.patchValue({
             name: product.name,
@@ -80,7 +120,10 @@ export class ProductFormComponent implements OnInit {
     }
 
 
-    // Khởi tạo form với validation
+    /**
+     * Khởi tạo form với các trường và validation.
+     * @returns void
+     */
     private initializeForm(): void {
         this.productForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(3)]],
@@ -238,6 +281,7 @@ export class ProductFormComponent implements OnInit {
         // Mark all fields as touched để hiển thị validation errors
         this.markAllFieldsAsTouched();
 
+        // Nếu form không hợp lệ, cuộn đến lỗi đầu tiên và dừng
         if (this.productForm.invalid) {
             this.scrollToFirstError();
             return;
@@ -260,7 +304,10 @@ export class ProductFormComponent implements OnInit {
         }
     }
 
-    // Chuẩn bị dữ liệu form
+    /**
+     * Chuẩn bị dữ liệu form thành đối tượng Product.
+     * @returns Product Đối tượng Product được chuẩn bị từ dữ liệu form
+     */
     private prepareFormData(): Product {
         const formValue = this.productForm.value;
         console.log('Form Value:', formValue);
@@ -284,7 +331,11 @@ export class ProductFormComponent implements OnInit {
         };
     }
 
-    // Mark all fields as touched
+    /**
+     * Đánh dấu tất cả các trường trong form là đã chạm (touched)
+     * để hiển thị các lỗi validation.
+     * @returns void
+     */
     private markAllFieldsAsTouched(): void {
         Object.keys(this.productForm.controls).forEach(key => {
             const control = this.productForm.get(key);

@@ -11,6 +11,7 @@ import { ProductService } from '../../product.service';
 export class ProductDetailComponent implements OnInit {
   productData: Product | null = null; // Dùng model Product để có kiểu dữ liệu rõ ràng
   isLoading = true; // Thêm biến cờ để quản lý trạng thái loading
+  isEditMode = false; // Biến để quản lý chế độ chỉnh sửa
 
   constructor(
     private route: ActivatedRoute, // Inject ActivatedRoute để lấy tham số từ URL
@@ -18,10 +19,17 @@ export class ProductDetailComponent implements OnInit {
     private router: Router // Inject Router để điều hướng
   ) { }
 
+  /**
+   * Khởi tạo component và tải dữ liệu sản phẩm
+   * @return void
+   */
   ngOnInit(): void {
     this.loadProductData();
   }
-
+  /**
+   * Tải dữ liệu sản phẩm từ API dựa trên ID lấy từ URL
+   * @returns void
+   */
   async loadProductData(): Promise<void> {
     // 1. Lấy 'id' từ URL snapshot
     const productId = this.route.snapshot.paramMap.get('id');
@@ -47,6 +55,7 @@ export class ProductDetailComponent implements OnInit {
   }
   /**
    * Xóa sản phẩm hiện tại
+   * @return void
    */
   async deleteProduct(): Promise<void> {
     // Kiểm tra để chắc chắn có dữ liệu sản phẩm và ID
@@ -70,5 +79,31 @@ export class ProductDetailComponent implements OnInit {
       }
     }
   }
-
+  /**
+   * Bật/tắt chế độ chỉnh sửa
+   * @return void
+   */
+  toggleEditMode(): void {
+    this.isEditMode = !this.isEditMode;
+  }
+  /**
+   * Lưu các thay đổi sau khi chỉnh sửa
+   * @return void
+   */
+  async saveChanges(): Promise<void> {
+    // Logic 
+    console.log('Saving changes...');
+    // Sau khi lưu thành công, quay về chế độ xem
+    this.toggleEditMode();
+  }
+  /**
+   * Hủy chỉnh sửa và quay lại trạng thái ban đầu
+   * @return void
+   */
+  cancelEdit(): void {
+    if (this.productData) {
+      // Logic để reset form
+    }
+    this.toggleEditMode();
+  }
 }

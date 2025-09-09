@@ -3,25 +3,36 @@
     <div class="detail-header">
         <h1 class="detail-title">Thông tin sản phẩm</h1>
         <div>
-            <button mat-flat-button color="primary" class="edit-btn">
-                <mat-icon></mat-icon>
-                <span>Cấu hình in tem</span>
-            </button>
-            <button mat-flat-button color="primary" class="print-btn">
-                <mat-icon></mat-icon>
-                <span>In tem sản phẩm</span>
-            </button>
-            <button mat-flat-button color="primary" class="print-btn">
-                <mat-icon></mat-icon>
-                <span>In tem lô</span>
-            </button>
-            <button mat-flat-button color="warn" class="delete-btn" (click)="deleteProduct()">
-                <mat-icon>delete</mat-icon>
-                <span>Xóa</span>
-            </button>
+            <ng-container *ngIf="!isEditMode">
+                <button mat-flat-button color="primary" class="edit-btn" (click)="toggleEditMode()">
+                    <mat-icon></mat-icon>
+                    <span>Cấu hình in tem</span>
+                </button>
+                <button mat-flat-button color="primary" class="print-btn">
+                    <mat-icon></mat-icon>
+                    <span>In tem sản phẩm</span>
+                </button>
+                <button mat-flat-button color="primary" class="print-btn">
+                    <mat-icon></mat-icon>
+                    <span>In tem lô</span>
+                </button>
+                <button mat-flat-button color="warn" class="delete-btn" (click)="deleteProduct()">
+                    <mat-icon>delete</mat-icon>
+                    <span>Xóa</span>
+                </button>
+            </ng-container>
+            <ng-container *ngIf="isEditMode">
+                <button mat-stroked-button (click)="cancelEdit()">
+                    <span>Hủy</span>
+                </button>
+                <button mat-flat-button color="primary" class="save-btn" (click)="saveChanges()">
+                    <mat-icon>save</mat-icon>
+                    <span>Lưu thay đổi</span>
+                </button>
+            </ng-container>
         </div>
     </div>
     <!-- Tái sử dụng ProductFormComponent -->
-    <app-product-form [initialData]="productData" [mode]="'edit'">
+    <app-product-form [initialData]="productData" [mode]="'edit'" [isReadOnly]="!isEditMode">
     </app-product-form>
 </div>
