@@ -9,8 +9,8 @@ export class Product {
     unit: string;
     wholesalePrice: number;
     barcode?: string;
-    retailPrice: number;
-    price?: number;
+    retailPrice?: number;
+    price: number;
     stockAlert: number;
     allowSelling: boolean;
     fastSell: boolean;

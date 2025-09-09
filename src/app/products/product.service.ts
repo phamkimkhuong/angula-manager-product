@@ -216,7 +216,7 @@ export class ProductService {
     const priceValidation = this.validatePriceRelationships(
       productData.importPrice,
       productData.wholesalePrice,
-      productData.retailPrice
+      productData.price
     );
 
     if (!priceValidation.isValid) {
@@ -232,7 +232,7 @@ export class ProductService {
       unit: productData.unit || '',
       wholesalePrice: productData.wholesalePrice || 0,
       barcode: productData.barcode || this.generateBarcode(),
-      retailPrice: productData.retailPrice || 0,
+      price: productData.price || 0,
       stockAlert: productData.stockAlert || 0,
       allowSelling: productData.allowSelling !== undefined ? productData.allowSelling : true,
       fastSell: productData.fastSell !== undefined ? productData.fastSell : true
@@ -260,7 +260,7 @@ export class ProductService {
       importPrice: 0,
       unit: '',
       wholesalePrice: 0,
-      retailPrice: 0,
+      price: 0,
       stockAlert: 0,
       allowSelling: true,
       fastSell: true,
@@ -275,34 +275,22 @@ export class ProductService {
    * Get product by ID (simulate API call)
    */
   async getProductById(id: string): Promise<Product | null> {
-    // Simulate product not found
-    if (id === 'not-found') {
-      return null;
-    }
-
-    // Simulate found product
-    return {
-      id,
-      name: `Sample Product ${id}`,
-      category: 'shoes',
-      brand: 'Sample Brand',
-      location: 'Khu A, kệ số 1',
-      hasVariants: false,
-      importPrice: 50000,
-      unit: 'đôi',
-      wholesalePrice: 60000,
-      barcode: this.generateBarcode(),
-      retailPrice: 75000,
-      stockAlert: 10,
-      allowSelling: true,
-      fastSell: true
-    };
+    console.log(`ProductService: Fetching product with ID: ${id},  `); // Thêm log để dễ debug
+    return this.firebaseService.getProductById(id);
   }
   /**
    * Get all products (simulate API call)
    */
   getAllProducts(): Observable<Product[]> {
+    console.log('Fetching all products from Firebase');
     return this.firebaseService.getProducts();
+  }
+  /**
+   * Delete product by ID (simulate API call)
+   */
+  async deleteProduct(id: string): Promise<void> {
+    console.log(`Deleting product with ID: ${id}`);
+    return this.firebaseService.deleteProduct(id);
   }
 
   // ===== UTILITY METHODS =====

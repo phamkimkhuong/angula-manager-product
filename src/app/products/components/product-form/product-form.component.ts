@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ProductService } from '../../product.service';
@@ -47,8 +47,38 @@ export class ProductFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm();
-        this.generateBarcode();
+        if (this.mode === 'create') {
+            this.generateBarcode();
+        }
     }
+    ngOnChanges(changes: SimpleChanges): void {
+        // Kiểm tra nếu 'initialData' thay đổi và có giá trị
+        if (changes['initialData'] && this.initialData) {
+            this.populateForm(this.initialData);
+        }
+    }
+    private populateForm(product: Product): void {
+        this.productForm.patchValue({
+            name: product.name,
+            category: product.category,
+            brand: product.brand,
+            location: product.location,
+            hasVariants: product.hasVariants,
+            importPrice: product.importPrice,
+            unit: product.unit,
+            wholesalePrice: product.wholesalePrice,
+            barcode: product.barcode,
+            retailPrice: product.retailPrice,
+            stockAlert: product.stockAlert,
+            allowSelling: product.allowSelling,
+            fastSell: product.fastSell
+
+        });
+        if (product.image) {
+            this.selectedImagePreview = product.image;
+        }
+    }
+
 
     // Khởi tạo form với validation
     private initializeForm(): void {
@@ -233,6 +263,7 @@ export class ProductFormComponent implements OnInit {
     // Chuẩn bị dữ liệu form
     private prepareFormData(): Product {
         const formValue = this.productForm.value;
+        console.log('Form Value:', formValue);
 
         return {
             name: formValue.name,
@@ -244,6 +275,7 @@ export class ProductFormComponent implements OnInit {
             unit: formValue.unit,
             wholesalePrice: this.productService.parsePrice(formValue.wholesalePrice),
             barcode: formValue.barcode || '',
+            price: this.productService.parsePrice(formValue.price),
             retailPrice: this.productService.parsePrice(formValue.retailPrice),
             stockAlert: parseInt(formValue.stockAlert) || 0,
             allowSelling: formValue.allowSelling,

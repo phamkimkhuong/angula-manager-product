@@ -70,11 +70,23 @@ export class FirebaseService {
   /**
    * Lấy thông tin sản phẩm dựa trên ID.
    * @param id ID của sản phẩm cần lấy
-   * @return Promise chứa thông tin sản phẩm hoặc null nếu không tìm thấy.
+   * @return Observable chứa thông tin sản phẩm hoặc null nếu không tìm thấy.
    * */
   async getProductById(id: string): Promise<Product | null> {
-    const doc = await this.productCollection.doc(id).get().toPromise();
-    return doc?.exists ? (doc.data() as Product) : null;
+    try {
+      const docSnap = await this.productCollection.doc(id).get().toPromise();
+
+      if (docSnap && docSnap.exists) {
+        // Gộp ID vào trong dữ liệu trả về
+        return { id: docSnap.id, ...docSnap.data() } as Product;
+      } else {
+        console.warn(`Product with ID "${id}" not found.`);
+        return null;
+      }
+    } catch (error) {
+      console.error(`Error getting product by ID "${id}":`, error);
+      throw error; // Ném lỗi ra để service cấp trên có thể bắt được
+    }
   }
   // --- UPDATE ---
   /**
