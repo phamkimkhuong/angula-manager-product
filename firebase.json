@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "study-toeicmentors",
+    "public": "dist/toeic-customers",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

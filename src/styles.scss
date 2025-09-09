@@ -1,0 +1,571 @@
+/* You can add global styles to this file, and also import other style files */
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;550&display=swap");
+
+
+* {
+    -webkit-overflow-scrolling: touch;
+    font-family: 'Quicksand', sans-serif /* !important;
+    user-select: none;
+    /* Chặn chọn văn bản */
+    //font-family: "Quicksand", sans-serif !important;
+}
+
+
+.ant-message {
+    position: fixed !important;
+    top: 50px !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    z-index: 9999999 !important;
+}
+
+table {
+    width: 100% !important
+}
+
+.uploading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.75);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+
+    .spinner {
+        width: 36px;
+        height: 36px;
+        border: 4px solid #ccc;
+        border-top-color: var(--ion-color-hu-green);
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+    }
+
+    .uploading-text {
+        margin-top: 12px;
+        font-size: 14px;
+        color: #333;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ant-spin-dot-item {
+    background-color: var(--ion-color-hu-green) !important;
+}
+
+.ant-spin {
+    color: var(--ion-color-hu-green) !important;
+}
+
+.custom-dialog-container {
+    padding-top: 20%;
+    width: 100%;
+    max-width: 100% !important;
+    height: 100%;
+}
+
+.ant-col-12 {
+    padding: 8px;
+}
+
+.ant-layout-header {
+    line-height: normal !important;
+}
+
+// radio mới //////////////////////////
+.ant-radio-button-wrapper {
+    border-radius: 100% !important;
+    height: 18px !important;
+    width: 18px !important;
+    /* line-height: 17px !important; */
+    border: 1px solid #000 !important;
+    padding: 0 5px !important;
+    margin: 3px !important;
+    font-size: 14px !important;
+    font-weight: bolder !important;
+}
+
+.span-radio {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100%;
+    color: #000;
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before {
+    content: none !important;
+}
+
+.ant-radio-group {
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 4px !important;
+}
+
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    color: #000;
+    background: #000 !important;
+    border-color: #000;
+}
+
+.radio-content {
+    display: flex;
+
+    .text-radio {
+        font-size: 15px;
+        margin-left: 5px;
+        display: flex;
+        align-items: center;
+
+        span {
+            margin-left: 8px;
+        }
+    }
+}
+
+.buttons-view-answer {
+    position: absolute;
+    right: 115px;
+    // height: 5vh;
+    gap: 4px;
+    display: flex;
+    bottom: 1.76%;
+    align-items: center;
+
+    button {
+        height: 97%;
+        border-radius: 4px;
+        // height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+////////////////////////////////////////////////////////////////
+/* CSS- zorro component*/
+
+.ant-menu-inline .ant-menu-item::after {
+    border-right: 3px solid var(--ion-color-hu-green);
+}
+
+.ant-select-item-option-content {
+    white-space: normal !important;
+}
+
+.ant-spin-container {
+    height: 100%;
+}
+
+.ant-menu-item-active,
+.ant-menu-item:hover,
+.ant-menu-submenu-active,
+.ant-menu-submenu-title:hover,
+.ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-submenu-selected,
+.ant-menu-item-selected,
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+    color: var(--ion-color-hu-green) !important;
+    // border-bottom: 1px solid var(--ion-color-hu-green) !important
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: transparent !important;
+}
+
+.ant-menu-submenu-inline>.ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after {
+    background: linear-gradient(to right, var(--ion-color-hu-green), var(--ion-color-hu-green));
+}
+
+.ant-dropdown-menu-item-selected,
+.ant-dropdown-menu-item-selected>a,
+.ant-dropdown-menu-submenu-title-selected,
+.ant-dropdown-menu-submenu-title-selected>a {
+    color: var(--ion-color-hu-green) !important;
+    background: white !important
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+.ant-tabs-tab:hover {
+    color: var(--ion-color-hu-green) !important;
+}
+
+.ant-tabs-ink-bar {
+    background: var(--ion-color-hu-green) !important;
+}
+
+.ant-checkbox-checked::after {
+    background-color: var(--ion-color-hu-green) !important;
+    border: 1px solid var(--ion-color-hu-green);
+    color: var(--ion-color-hu-green) !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+    background-color: var(--ion-color-hu-green) !important;
+    border-color: var(--ion-color-hu-green) !important;
+}
+
+.ant-input:focus {
+    box-shadow: none;
+}
+
+.ant-select:focus {
+    box-shadow: none;
+}
+
+
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border: 1px solid var(--ion-color-hu-green);
+}
+
+.ant-picker-today-btn {
+    color: var(--ion-color-hu-green);
+}
+
+.ant-picker-focused {
+    border-color: none !important;
+}
+
+.ant-picker-focused,
+.ant-picker:hover {
+    border-color: var(--ion-color-hu-green);
+}
+
+.ant-layout-sider-trigger {
+    background-color: var(--ion-color-hu-green) !important;
+    border-top: 1px solid;
+}
+
+.ant-picker-input>input:focus {
+    border-color: var(--ion-color-hu-green);
+}
+
+.ant-btn-primary {
+    background: var(--ion-color-hu-green) !important;
+    border-color: var(--ion-color-hu-green) !important;
+    border-radius: 5px !important;
+}
+
+.ant-popover-inner {
+    border-radius: 8px !important;
+}
+
+.ant-popover-buttons button {
+    border-radius: 5px !important;
+}
+
+.ant-popover-buttons button:hover {
+    color: #272623 !important;
+    border: 1px solid lightgrey !important;
+}
+
+.ant-modal-body {
+    scrollbar-width: none;
+    /* For Firefox */
+    -ms-overflow-style: none;
+    /* For Internet Explorer and Edge */
+}
+
+.ant-modal-body::-webkit-scrollbar {
+    width: 0px !important;
+    /* For Chrome, Safari, and Opera */
+}
+
+.ant-layout,
+.ant-modal {
+    scrollbar-width: none;
+    /* For Firefox */
+    -ms-overflow-style: none;
+    /* For Internet Explorer and Edge */
+}
+
+.ant-layout::-webkit-scrollbar,
+.ant-modal::-webkit-scrollbar {
+    width: 0px;
+    /* For Chrome, Safari, and Opera */
+}
+
+.ant-radio-input:focus+.ant-radio-inner,
+.ant-radio-wrapper:hover .ant-radio,
+.ant-radio:hover .ant-radio-inner {
+    border-color: var(--ion-color-hu-green) !important;
+    color: var(--ion-color-hu-green) !important;
+}
+
+.ant-radio-checked .ant-radio-inner {
+    border-color: var(--ion-color-hu-green) !important;
+}
+
+.ant-radio-button-wrapper-disabled.ant-radio-button-wrapper-checked {
+    background-color: #000 !important;
+}
+
+.ant-radio-checked {
+    color: var(--ion-color-hu-green) !important;
+}
+
+.ant-radio-inner::after {
+    background-color: var(--ion-color-hu-green) !important;
+}
+
+.ant-slider-rail {
+    width: 100%;
+    height: 15px;
+    border-radius: 2px;
+}
+
+.ant-slider .ant-slider-track {
+    background-color: var(--ion-color-hu-green) !important;
+    height: 15px;
+}
+
+.nz-hover-border:focus,
+.ant-pagination-item:focus {
+    color: var(--ion-color-hu-black) !important;
+    border-color: var(--ion-color-hu-green) !important;
+}
+
+.nz-hover-border:hover,
+.ant-pagination-item:hover {
+    color: var(--ion-color-hu-black) !important;
+    border-color: var(--ion-color-hu-green) !important;
+}
+
+.nz-hover-border-green:focus,
+.nz-hover-border-green:hover {
+    color: var(--ion-color-hu-white) !important;
+    background: var(--ion-color-hu-green) !important;
+    border-color: var(--ion-color-hu-green) !important;
+}
+
+.ant-radio-checked+label::after {
+    background: var(--ion-color-hu-green) !important;
+    color: var(--ion-color-hu-green) !important;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: var(--ion-color-hu-green);
+    box-shadow: none;
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    border-color: var(--ion-color-hu-green);
+}
+
+.ant-input-number:hover {
+    border-color: var(--ion-color-hu-green) !important;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-radius: 5px !important;
+}
+
+.ant-switch {
+    border-radius: 100px !important;
+}
+
+.ant-switch-checked {
+    background-color: var(--ion-color-hu-green) !important;
+}
+
+
+//// popup thông báo điểm ///
+.result-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(48, 56, 86, 0.22);
+    z-index: 1999;
+    transition: background 0.18s;
+}
+
+.result-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.result-modal-content {
+    background: #fff;
+    border-radius: 2.3rem;
+    min-width: 355px;
+    max-width: 95vw;
+    padding: 40px 36px 28px 36px;
+    box-shadow: 0 10px 40px #b9c7f533, 0 2px 12px #9bb9ff17;
+    text-align: center;
+    position: relative;
+    pointer-events: auto;
+    border: 1.5px solid #e5e8f7;
+
+    .result-modal-close {
+        position: absolute;
+        right: 22px;
+        top: 22px;
+        border: none;
+        background: none;
+        font-size: 2.4rem;
+        color: #bfc8e4;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.15s;
+
+        &:hover {
+            color: #fe6767;
+        }
+    }
+
+    .result-modal-icon {
+        font-size: 4rem;
+        margin-bottom: 7px;
+        margin-top: 1px;
+        filter: drop-shadow(0 4px 22px #6efcc77c);
+        animation: pop-shadow 0.85s;
+    }
+
+    // ĐIỂM TRUNG TÂM
+    .result-main-point {
+        margin: 34px auto 8px auto;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 6px;
+        background: linear-gradient(120deg, #f4fff7 40%, #f5f9ff 100%);
+        border-radius: 32px;
+        box-shadow: 0 6px 36px #65e1b616, 0 2px 12px #b1e7ff0d;
+        padding: 17px 44px 13px 44px;
+        min-width: 160px;
+        max-width: 95vw;
+        border: 2.2px solid #53e1b438;
+        transition: border-color 0.18s;
+
+        &.fail {
+            background: linear-gradient(120deg, #fff6f6 50%, #ffeff7 100%);
+            border-color: #e74c3c3d;
+        }
+    }
+
+    .big-point {
+        color: #21b16c;
+        font-size: 3.6rem;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: 1px;
+        text-shadow: 0 3px 20px #87ebd44a;
+        transition: color 0.18s;
+
+        &.fail {
+            color: #e74c3c;
+            text-shadow: 0 3px 16px #ffc4c9;
+        }
+    }
+
+    .big-denominator {
+        color: #aeb7c4;
+        font-size: 2.1rem;
+        font-weight: 700;
+        margin-left: 2px;
+        margin-bottom: 3px;
+    }
+
+    .score-done-note {
+        font-size: 1.11rem;
+        color: #8c98b5;
+        margin-bottom: 20px;
+
+        b {
+            color: #5c57e8;
+        }
+
+        transition: color 0.18s;
+
+        &.fail {
+            color: #e74c3c !important;
+
+            b {
+                color: #e74c3c !important;
+            }
+        }
+    }
+
+    .result-modal-footer {
+        margin-top: 18px;
+
+        .result-modal-btn {
+            background: linear-gradient(90deg, #a46eff 0%, #57d4f7 100%);
+            color: #fff;
+            border: none;
+            font-weight: 800;
+            border-radius: 22px;
+            font-size: 1.19rem;
+            padding: 12px 60px;
+            margin-top: 2px;
+            box-shadow: 0 2px 18px #b0e4f731;
+            cursor: pointer;
+            transition: background .14s, color .14s, box-shadow .18s;
+            outline: none;
+
+            &:hover {
+                background: linear-gradient(90deg, #5e3ecb 0%, #1db3b3 100%);
+                color: #fff;
+                box-shadow: 0 6px 24px #b1f7ec29;
+            }
+        }
+    }
+}
+
+// Hiệu ứng pop-shadow cho icon
+@keyframes pop-shadow {
+    0% {
+        filter: drop-shadow(0 0 0 #1ecb71);
+    }
+
+    60% {
+        filter: drop-shadow(0 12px 50px #70ffcd74);
+    }
+
+    100% {
+        filter: drop-shadow(0 4px 22px #6efcc77c);
+    }
+}
+
+@media (max-width: 600px) {
+    .result-modal-content {
+        min-width: unset;
+        padding: 12px 8px 10px 8px;
+
+        .result-main-point {
+            padding: 9px 20px 7px 20px;
+            min-width: 90px;
+
+            .big-point {
+                font-size: 2rem;
+            }
+
+            .big-denominator {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,476 @@
+<main class="ng-begin" ngNonBindable>
+    <h1>Angular Cơ Bản</h1>
+    <p class="intro">
+        Mục tiêu: hiểu cấu trúc dự án, cách hiển thị dữ liệu,
+        điều hướng (Router) &amp; truyền/nhận dữ liệu, gọi API, vòng đời component, Forms, và
+        <b>quy tắc đặt tên biến/hàm/file</b>.
+    </p>
+
+    <!-- 1) ANGULAR LÀ GÌ -->
+    <section class="sec">
+        <h2>1) Angular là gì?</h2>
+        <div class="card">
+            <p><b>Angular</b> là framework xây ứng dụng web “một trang” (SPA). Ứng dụng được ghép từ nhiều
+                <b>component</b> (mỗi component là 1 khối UI).
+            </p>
+            <ul>
+                <li><b>Dễ hiểu:</b> Trang web = ghép nhiều khối UI độc lập (component).</li>
+                <li><b>Gọn &amp; nhanh:</b> Tách <b>hiển thị</b> (HTML/CSS) và <b>xử lý</b> (TS/Service).</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 2) CẤU TRÚC DỰ ÁN -->
+    <section class="sec">
+        <h2>2) Cấu trúc dự án Angular (cần biết)</h2>
+
+        <div class="card">
+            <h3>2.1 Module</h3>
+            <ul>
+                <li>Gom nhóm: component, directive, pipe, service.</li>
+                <li><b>AppModule</b> khởi động app; app lớn tách <b>FeatureModule</b> (theo tính năng) để dễ bảo trì.
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>2.2 Component</h3>
+            <ul>
+                <li>Gồm: <b>template</b> (HTML), <b>class</b> (logic), <b>style</b> (CSS).</li>
+                <li>Nhận dữ liệu từ cha: <span class="tag">@Input</span> • Phát sự kiện cho cha: <span
+                        class="tag">@Output</span>.</li>
+                <li><b>Nguyên tắc vàng:</b> UI để ở component, mọi xử lý (API, tính toán…) đưa sang <b>Service</b>.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>2.3 Service &amp; DI</h3>
+            <ul>
+                <li>Chứa logic chung, gọi API. Đăng ký <span class="kbd">providedIn: 'root'</span> để dùng toàn app.
+                </li>
+                <li>Inject vào component qua <span class="kbd">constructor(private svc: XService)</span>.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>2.4 Router</h3>
+            <ul>
+                <li>Đi giữa các trang. Mỗi đường dẫn (route) trỏ đến 1 component.</li>
+                <li>Có thể <b>truyền dữ liệu</b> khi điều hướng (param / query / state).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>2.5 Directive &amp; Pipe</h3>
+            <ul>
+                <li><b>Directive</b>: thêm hành vi cho phần tử (attribute/structural như <span class="kbd">*</span>ngIf,
+                    <span class="kbd">*</span>ngFor).
+                </li>
+                <li><b>Pipe</b>: biến đổi hiển thị (date, uppercase, custom…).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>2.6 Forms</h3>
+            <ul>
+                <li><b>Template-driven</b>: nhanh, ít cấu hình.</li>
+                <li><b>Reactive</b>: <span class="kbd">FormGroup</span> / <span class="kbd">FormControl</span> → mạnh,
+                    dễ validate phức tạp.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 3) HIỂN THỊ DỮ LIỆU -->
+    <section class="sec">
+        <h2>3) Hiển thị dữ liệu (Data Binding)</h2>
+
+        <div class="card">
+            <h3>3.1 Cú pháp thường dùng</h3>
+            <ul class="kbd-list">
+                <li>In ra màn hình: <span class="kbd">&#123;&#123; value &#125;&#125;</span></li>
+                <li>Đổ vào thuộc tính: <span class="kbd">&#91;src&#93;</span>=<span class="kbd">"imgUrl"</span></li>
+                <li>Bắt sự kiện: <span class="kbd">&#40;click&#41;</span>=<span class="kbd">"save()"</span></li>
+                <li>Hai chiều (nhập liệu): <span class="kbd">&#91;&#40;ngModel&#41;&#93;</span>=<span
+                        class="kbd">"name"</span></li>
+                <li>Lặp/ẩn hiện: <span class="kbd">*</span>ngFor, <span class="kbd">*</span>ngIf</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>3.2 Ví dụ</h3>
+            <pre><code>&lt;input &#91;&#40;ngModel&#41;&#93;="keyword" placeholder="Nhập tên..." /&gt;
+  &lt;button &#40;click&#41;="search()"&gt;Tìm&lt;/button&gt;
+  
+  &lt;ul&gt;
+    &lt;li *ngFor="let item of items"&gt;&#123;&#123; item.name &#125;&#125;&lt;/li&gt;
+  &lt;/ul&gt;</code></pre>
+            <p class="note"><b>Mẹo hiệu năng:</b> Danh sách lớn dùng <span class="kbd">trackBy</span> để mượt.</p>
+        </div>
+    </section>
+
+    <!-- 4) VÒNG ĐỜI -->
+    <section class="sec">
+        <h2>4) Vòng đời Component (làm gì ở đâu?)</h2>
+        <div class="card">
+            <ul>
+                <li><b>constructor</b>: chỉ inject service, <u>không</u> gọi API.</li>
+                <li><b>ngOnInit</b>: gọi API lần đầu, load dữ liệu.</li>
+                <li><b>ngAfterViewInit</b>: DOM con đã sẵn (ViewChild…).</li>
+                <li><b>ngOnDestroy</b>: <b>unsubscribe</b>, clear timer/interval (tránh rò rỉ bộ nhớ).</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 5) ROUTER (TRỌNG TÂM) -->
+    <section class="sec">
+        <h2>5) Router — Routes • Navigate • Nhận dữ liệu</h2>
+
+        <div class="card">
+            <h3>5.1 Khai báo routes</h3>
+            <pre><code>// app-routing.module.ts
+  const routes: Routes = &#91;
+    &#123; path: '', component: HomeComponent &#125;,
+    &#123; path: 'customers', component: CustomerListComponent &#125;,
+    &#123; path: 'customers/:id', component: CustomerDetailComponent &#125;
+  &#93;;</code></pre>
+            <p><b>Giải thích:</b> <span class="kbd">/customers</span> = danh sách; <span
+                    class="kbd">/customers/:id</span> = chi tiết 1 khách theo id.</p>
+        </div>
+
+        <div class="card">
+            <h3>5.2 Điều hướng (đi sang trang khác)</h3>
+            <h4>Trong HTML</h4>
+            <pre><code>&lt;a &#91;routerLink&#93;="['/customers']"&gt;Tới danh sách&lt;/a&gt;
+  &lt;a &#91;routerLink&#93;="['/customers', 42]"&gt;Chi tiết id=42&lt;/a&gt;
+  
+  &lt;a
+    &#91;routerLink&#93;="['/customers', id]"
+    &#91;queryParams&#93;="&#123; tab: 'profile' &#125;"
+    fragment="top"
+    &#91;state&#93;="&#123; from: 'home', customer &#125;"
+  &gt;Chi tiết + query + fragment + state&lt;/a&gt;</code></pre>
+
+            <h4>Trong TS (tham khảo ý tưởng)</h4>
+            <pre><code>this.router.navigate(['/customers', id], &#123;
+    queryParams: &#123; tab: 'profile' &#125;,
+    fragment: 'top',
+    state: &#123; from: 'home', customer &#125;
+  &#125;);</code></pre>
+
+            <ul>
+                <li><b>queryParams</b>: tham số trên URL (lọc/sort/trang).</li>
+                <li><b>fragment</b>: nhảy tới điểm neo trong trang (ví dụ “top”).</li>
+                <li><b>state</b>: gửi 1 object tạm (không hiển thị trên URL).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>5.3 Nhận dữ liệu ở trang đích</h3>
+
+            <h4>Param (/:id)</h4>
+            <pre><code>// Lấy 1 lần
+  const id = this.route.snapshot.paramMap.get('id');
+  
+  // Theo dõi thay đổi (khi route tái sử dụng)
+  this.route.paramMap.subscribe(m =&gt; &#123;
+    const id = m.get('id');
+  &#125;);</code></pre>
+
+            <h4>Query (?tab=...)</h4>
+            <pre><code>// Lấy 1 lần
+  const tab = this.route.snapshot.queryParamMap.get('tab');
+  
+  // Theo dõi thay đổi
+  this.route.queryParamMap.subscribe(q =&gt; &#123;
+    const tab = q.get('tab');
+  &#125;);</code></pre>
+
+            <h4>State (object tạm, không hiện trên URL)</h4>
+            <pre><code>// Đọc object truyền kèm state
+  const &#123; from, customer &#125; = history.state;
+  
+  // (tuỳ chọn) lúc điều hướng tới
+  const st = this.router.getCurrentNavigation()?.extras.state;</code></pre>
+
+            <p class="note">
+                <b>Dùng gì?</b> <u>Param</u> cho ID/SEO • <u>Query</u> cho lọc/sort • <u>State</u> để gửi object tạm
+                (không share link).
+            </p>
+        </div>
+    </section>
+
+    <!-- 6) TRUYỀN DỮ LIỆU GIỮA COMPONENT -->
+    <section class="sec">
+        <h2>6) Truyền dữ liệu giữa component</h2>
+        <div class="card">
+            <ul>
+                <li><b>Cha → Con</b>: dùng <span class="tag">@Input</span> (truyền giá trị).</li>
+                <li><b>Con → Cha</b>: dùng <span class="tag">@Output</span> (EventEmitter).</li>
+                <li><b>Không cùng quan hệ</b> (xa nhau): dùng <b>Service chia sẻ</b> (Subject/BehaviorSubject) hoặc
+                    Router state/query.</li>
+            </ul>
+            <pre><code>&lt;!-- Cha truyền xuống con --&gt;
+  &lt;app-child &#91;title&#93;="parentTitle" &#40;saved&#41;="onChildSaved($event)"&gt;&lt;/app-child&gt;</code></pre>
+        </div>
+    </section>
+
+    <!-- 7) GỌI API — Promise, async/await, Observable (tập trung Promise) -->
+    <section class="sec" ngNonBindable>
+        <h2>7) Gọi API — <u>Promise</u>, async/await, Observable</h2>
+
+        <!-- A. PROMISE LÀ GÌ -->
+        <div class="card">
+            <h3>A) Promise là gì?</h3>
+            <ul>
+                <li><b>1 lần</b>: chỉ resolve hoặc reject <b>một lần</b>, rồi xong.</li>
+                <li><b>Eager</b>: tạo là chạy (không cần ai “đăng ký” mới chạy).</li>
+                <li><b>Không hủy</b> giữa chừng (khác Observable).</li>
+                <li><b>Dùng cho</b>: đăng nhập, nộp form, gọi 1 API đơn lẻ.</li>
+            </ul>
+
+            <h4>Ví dụ chuẩn (async/await + try/catch/finally)</h4>
+            <pre><code>async function getCustomers() &#123;
+    const res = await fetch('/api/customers');      // gọi API
+    if (!res.ok) throw new Error('Lỗi mạng');       // tự quăng lỗi nếu HTTP fail
+    return res.json();                               // trả Promise data
+  &#125;
+  
+  try &#123;
+    const list = await getCustomers();               // đợi kết quả (1 lần)
+    console.log('Số khách:', list.length);
+  &#125; catch (err) &#123;
+    console.error('Thất bại:', err.message);        // xử lý lỗi gọn
+  &#125; finally &#123;
+    console.log('Tắt loading ở đây');               // luôn chạy (thành công hay lỗi)
+  &#125;</code></pre>
+
+            <h4>Tuần tự vs. Song song</h4>
+            <pre><code>// Tuần tự (chậm hơn vì đợi từng cái)
+  const a = await fetch('/api/a').then(r =&gt; r.json());
+  const b = await fetch('/api/b').then(r =&gt; r.json());
+  
+  // Song song (nhanh hơn)
+  const &#91;aRes, bRes&#93; = await Promise.all([
+    fetch('/api/a'), fetch('/api/b')
+  ]);
+  const &#91;aData, bData&#93; = await Promise.all([
+    aRes.json(), bRes.json()
+  ]);</code></pre>
+
+            <div class="note"><b>Mẹo Promise:</b> luôn bọc <span class="kbd">try/catch</span> + bật/tắt loading ở <span
+                    class="kbd">finally</span>.</div>
+        </div>
+
+        <!-- B. ASYNC/AWAIT LÀ CÚ PHÁP DỄ ĐỌC CHO PROMISE -->
+        <div class="card">
+            <h3>B) async/await là gì?</h3>
+            <ul>
+                <li><b>async</b> trước function ⇒ function đó <b>trả Promise</b>.</li>
+                <li><b>await</b> đứng trước 1 Promise ⇒ <b>đợi</b> kết quả (giống <span class="kbd">then</span> nhưng
+                    gọn).</li>
+                <li><b>Lỗi</b> ném ra (throw) ⇒ <span class="kbd">try/catch</span> bắt lại.</li>
+            </ul>
+
+            <h4>Những lỗi hay gặp (và cách sửa)</h4>
+            <ul>
+                <li><b>await trong forEach</b> ❌ — vì forEach không đợi. Dùng <span class="kbd">for...of</span> hoặc
+                    <span class="kbd">Promise.all</span> ✅.</li>
+                <li><b>Quên return</b> trong async function ⇒ hàm không trả về gì.</li>
+                <li><b>Thiếu try/catch</b> ⇒ lỗi rớt ra console, UI không báo.</li>
+            </ul>
+
+            <pre><code>// Sai (forEach không đợi)
+  items.forEach(async (x) =&gt; &#123;
+    await save(x); // chạy nhưng ngoài không đợi được
+  &#125;);
+  
+  // Đúng 1: for...of (tuần tự)
+  for (const x of items) &#123;
+    await save(x);
+  &#125;
+  
+  // Đúng 2: Promise.all (song song)
+  await Promise.all(items.map(x =&gt; save(x)));</code></pre>
+        </div>
+
+        <!-- C. OBSERVABLE (NHẮC NHANH ĐỂ PHÂN BIỆT) -->
+        <div class="card">
+            <h3>C) Observable là gì? (nhắc nhanh để phân biệt)</h3>
+            <ul>
+                <li><b>Nhiều lần</b>: stream 0..n giá trị theo thời gian (khác Promise 1 lần).</li>
+                <li><b>Lazy</b>: phải <b>subscribe()</b> mới chạy; <b>hủy được</b> (unsubscribe).</li>
+                <li>Trong Angular: <b>HttpClient</b> trả về Observable ⇒ dùng <span class="kbd">| async</span> pipe cho
+                    gọn.</li>
+            </ul>
+            <h4>Ví dụ template (không cần tự hủy)</h4>
+            <pre><code>&lt;ul&gt;
+    &lt;li *ngFor="let c of customers$ | async"&gt;&#123;&#123; c.name &#125;&#125;&lt;/li&gt;
+  &lt;/ul&gt;</code></pre>
+            <p class="note"><b>Chốt hạ:</b> <u>Promise</u> = 1 lần, dễ cho tác vụ đơn lẻ. <u>Observable</u> = nhiều lần,
+                hợp luồng thay đổi (search, socket), và có thể hủy.</p>
+        </div>
+    </section>
+
+
+
+
+    <!-- 8) FORMS -->
+    <section class="sec">
+        <h2>8) Forms (nhập liệu)</h2>
+        <div class="card">
+            <h3>8.1 Template-driven (nhanh)</h3>
+            <pre><code>&lt;input name="email" &#91;&#40;ngModel&#41;&#93;="email" required /&gt;</code></pre>
+        </div>
+        <div class="card">
+            <h3>8.2 Reactive (mạnh)</h3>
+            <pre><code>// TS: form = new FormGroup(&#123; email: new FormControl('', &#123; nonNullable: true &#125;) &#125;);
+  &lt;form &#91;formGroup&#93;="form"&gt;
+    &lt;input formControlName="email" /&gt;
+  &lt;/form&gt;</code></pre>
+        </div>
+    </section>
+
+    <!-- 9) QUY TẮC ĐẶT TÊN (BỔ SUNG THEO YÊU CẦU) -->
+    <section class="sec">
+        <h2>9) Quy tắc đặt tên (biến, hàm, file, class)</h2>
+
+        <div class="card">
+            <h3>9.1 Biến (variable)</h3>
+            <ul>
+                
+                <li><b>Số ít</b> cho 1 đối tượng: <span class="kbd">customer: Customer</span>.</li>
+                <li><b>Số nhiều</b> cho mảng: <span class="kbd">customers: Customer&#91;&#93;</span>.</li>
+                <li><b>Boolean</b> bắt đầu bằng <b>is/has/can/should</b>: <span class="kbd">isActive</span>, <span
+                        class="kbd">hasError</span>.</li>
+                <li><b>Observable</b> thêm ký hiệu <span class="kbd">$</span>: <span class="kbd">customers$</span>.</li>
+                <li>Hằng số: <span class="kbd">UPPER_SNAKE_CASE</span> (ví dụ <span class="kbd">API_BASE_URL</span>).
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>9.2 Hàm (function/method)</h3>
+            <ul>
+                <li><b>Động từ + Danh từ</b> (dễ hiểu):</li>
+                <li><span class="kbd">getCustomers()</span> — lấy nhiều khách hàng.</li>
+                <li><span class="kbd">getCustomerById(id)</span> — lấy 1 theo id.</li>
+                <li><span class="kbd">createCustomer(input)</span> • <span class="kbd">updateCustomer(id, data)</span> •
+                    <span class="kbd">deleteCustomer(id)</span>.
+                </li>
+                <li>Async/stream: <span class="kbd">loadCustomersAsync()</span> / <span
+                        class="kbd">getCustomers$()</span>.</li>
+                <li>Handler UI: <span class="kbd">onSaveClick()</span>, <span class="kbd">handleSubmit()</span>.</li>
+            </ul>
+        </div>
+
+      <!-- 9.3 File • Class • Selector (bản dễ hiểu) -->
+<div class="card" ngNonBindable>
+    <h3>9.3 Quy tắc đặt tên: File • Class • Selector (siêu dễ)</h3>
+  
+    <ol class="steps">
+      <li>
+        <h4>1) Tên <u>file</u> = <b>kebab-case</b> + <i>đuôi loại</i> + <b>.ts</b></h4>
+        <ul>
+          <li>component → <span class="kbd">.component.ts</span></li>
+          <li>service → <span class="kbd">.service.ts</span></li>
+          <li>module → <span class="kbd">.module.ts</span></li>
+          <li>pipe → <span class="kbd">.pipe.ts</span></li>
+          <li>directive → <span class="kbd">.directive.ts</span></li>
+        </ul>
+        <pre><code>customer-list.component.ts
+  student.service.ts
+  customers.module.ts
+  full-name.pipe.ts
+  highlight.directive.ts</code></pre>
+        <p><i><b>kebab-case</b> = chữ thường, cách nhau bằng dấu gạch ngang: <span class="kbd">customer-list</span></i></p>
+      </li>
+  
+      <li>
+        <h4>2) Tên <u>class</u> = <b>PascalCase</b> + <i>hậu tố loại</i></h4>
+        <pre><code>export class CustomerListComponent &#123; &#125;
+  export class StudentService &#123; &#125;
+  export class CustomersModule &#123; &#125;
+  export class FullNamePipe implements PipeTransform &#123; &#125;
+  export class HighlightDirective &#123; &#125;</code></pre>
+        <p><i><b>PascalCase</b> = ViếtHoaMỗiTừLiềnNhau (không gạch nối).</i></p>
+      </li>
+  
+      <li>
+        <h4>3) <u>Selector</u> của Component = <b>kebab-case</b>, có prefix (thường <span class="kbd">app-</span>)</h4>
+        <pre><code>@Component(&#123; selector: 'app-customer-list', ... &#125;)</code></pre>
+        <p>Dùng trong HTML:</p>
+        <pre><code>&lt;app-customer-list&gt;&lt;/app-customer-list&gt;</code></pre>
+      </li>
+    </ol>
+  
+    <div class="grid-two">
+      <div>
+        <h4>Bảng quy đổi nhanh</h4>
+        <table class="mini">
+          <thead>
+            <tr>
+              <th>Loại</th><th>Tên file</th><th>Tên class</th><th>Selector / Cách dùng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Component</td>
+              <td>customer-list.component.ts</td>
+              <td>CustomerListComponent</td>
+              <td>&lt;app-customer-list&gt;&lt;/app-customer-list&gt;</td>
+            </tr>
+            <tr>
+              <td>Service</td>
+              <td>student.service.ts</td>
+              <td>StudentService</td>
+              <td>constructor(private studentService: StudentService)</td>
+            </tr>
+            <tr>
+              <td>Module</td>
+              <td>customers.module.ts</td>
+              <td>CustomersModule</td>
+              <td>imports: &#91;CustomersModule&#93;</td>
+            </tr>
+            <tr>
+              <td>Pipe</td>
+              <td>full-name.pipe.ts</td>
+              <td>FullNamePipe</td>
+              <td>&#123;&#123; user | fullName &#125;&#125;</td>
+            </tr>
+            <tr>
+              <td>Directive</td>
+              <td>highlight.directive.ts</td>
+              <td>HighlightDirective</td>
+              <td>&#91;appHighlight&#93;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div>
+        <h4>Đừng nhầm lẫn</h4>
+        <ul>
+          <li><b>File</b> luôn <b>kebab-case</b> • <b>Class</b> luôn <b>PascalCase</b>.</li>
+          <li><b>Biến/Hàm</b> trong code: <b>camelCase</b> → <span class="kbd">customer</span>, <span class="kbd">getCustomers()</span>.</li>
+          <li>Không trộn Anh–Việt trong tên code; nên dùng tiếng Anh cho tên kỹ thuật.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+    </section>
+
+    <!-- 10) BEST PRACTICES -->
+    <section class="sec">
+        <h2>10) Best Practices</h2>
+        <div class="card">
+            <ul>
+                <li>Đẩy logic sang <b>Service</b>, component tập trung UI.</li>
+                <li><b>Unsubscribe</b> trong <span class="kbd">ngOnDestroy</span> (hoặc dùng <span
+                        class="kbd">async</span> pipe).</li>
+                <li>Dùng <b>interface</b>/type cho dữ liệu, hạn chế <span class="kbd">any</span>.</li>
+                <li>Chia <b>feature module</b> khi app lớn</li>
+            </ul>
+        </div>
+    </section>
+</main>

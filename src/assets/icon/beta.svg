@@ -1,0 +1,12 @@
+<svg width="80" height="24" viewBox="0 0 80 24" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hình nền -->
+  <rect width="80" height="24" rx="12" fill="#69B93F"/>
+
+  <!-- Viền mờ -->
+  <rect x="1" y="1" width="78" height="22" rx="11" stroke="white" stroke-width="1" opacity="0.7"/>
+
+  <!-- Text BETA -->
+  <text x="50%" y="50%" fill="white" font-size="12" font-weight="bold" font-family="Arial, sans-serif" text-anchor="middle" dominant-baseline="middle">
+    BETA
+  </text>
+</svg>
