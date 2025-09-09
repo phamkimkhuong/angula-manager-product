@@ -1,6 +1,6 @@
 <div class="product-form-container">
     <!-- Header -->
-    <div class="form-header">
+    <div *ngIf="mode === 'create'" class="form-header">
         <h1 class="form-title">Thêm sản phẩm</h1>
         <button mat-flat-button color="primary" class="save-btn" (click)="onSave()" [disabled]="isLoading">
             <mat-icon>save</mat-icon>
@@ -146,7 +146,7 @@
                             </mat-checkbox>
                         </div>
                         <div class="checkbox-row">
-                            <mat-checkbox formControlName="lot" color="primary">
+                            <mat-checkbox *ngIf="mode === 'create'" formControlName="lot" color="primary">
                                 Lô, hạn sử dụng
                             </mat-checkbox>
                         </div>

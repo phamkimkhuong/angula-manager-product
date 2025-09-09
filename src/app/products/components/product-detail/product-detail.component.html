@@ -1,14 +1,26 @@
 <div class="product-detail-container">
-    <!-- Header riêng của trang Detail -->
+    <!-- Header -->
     <div class="detail-header">
-        <h1>Thông tin sản phẩm</h1>
-        <div class="actions">
-            <button mat-flat-button color="primary">Cấu hình in tem</button>
-            <!-- Các nút khác -->
-            <button mat-stroked-button color="warn">Xóa</button>
+        <h1 class="detail-title">Thông tin sản phẩm</h1>
+        <div>
+            <button mat-flat-button color="primary" class="edit-btn">
+                <mat-icon></mat-icon>
+                <span>Cấu hình in tem</span>
+            </button>
+            <button mat-flat-button color="primary" class="print-btn">
+                <mat-icon></mat-icon>
+                <span>In tem sản phẩm</span>
+            </button>
+            <button mat-flat-button color="primary" class="print-btn">
+                <mat-icon></mat-icon>
+                <span>In tem lô</span>
+            </button>
+            <button mat-flat-button color="primary" class="delete-btn">
+                <mat-icon>delete</mat-icon>
+                <span>Xóa</span>
+            </button>
         </div>
     </div>
-
     <!-- Tái sử dụng ProductFormComponent -->
     <app-product-form [initialData]="productData" [mode]="'edit'">
     </app-product-form>
