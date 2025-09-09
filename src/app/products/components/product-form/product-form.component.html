@@ -12,123 +12,97 @@
     <div class="form-content">
         <form [formGroup]="productForm" class="product-form">
 
-            <!-- Left side: Image upload -->
-            <div class="form-left">
-                <div class="image-upload-area" (click)="triggerFileUpload()">
-                    <div *ngIf="!selectedImagePreview" class="image-placeholder">
-                        <mat-icon>image</mat-icon>
+            <!-- ===== KHỐI 1: THÔNG TIN CƠ BẢN ===== -->
+            <div class="form-section top-section">
+                <!-- Image Upload -->
+                <div class="image-upload-wrapper">
+                    <div class="image-upload-area" (click)="triggerFileUpload()">
+                        <div *ngIf="!selectedImagePreview" class="image-placeholder">
+                            <mat-icon>image</mat-icon>
+                        </div>
+                        <img *ngIf="selectedImagePreview" [src]="selectedImagePreview" alt="Product image"
+                            class="preview-image">
+                        <input #fileInput type="file" accept="image/*" (change)="onImageSelect($event)"
+                            style="display: none">
                     </div>
-                    <img *ngIf="selectedImagePreview" [src]="selectedImagePreview" alt="Product image"
-                        class="preview-image">
-                    <input #fileInput type="file" accept="image/*" (change)="onImageSelect($event)"
-                        style="display: none">
+                </div>
+
+                <!-- Basic Info Fields -->
+                <div class="basic-info-fields">
+                    <!-- Tên sản phẩm -->
+                    <div class="form-field full-width">
+                        <label class="field-label required">Tên sản phẩm</label>
+                        <mat-form-field appearance="outline" class="form-input">
+                            <input matInput placeholder="Nhập tên sản phẩm" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                    <!-- Danh mục, Thương hiệu, Vị trí -->
+                    <div class="form-row three-columns">
+                        <div class="form-field">
+                            <label class="field-label required">Danh mục</label>
+                            <mat-form-field appearance="outline" class="form-select">
+                                <mat-select placeholder="Vui lòng chọn danh mục" formControlName="category">
+                                    <mat-option *ngFor="let category of categories" [value]="category.value">
+                                        {{category.label}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Thương hiệu</label>
+                            <mat-form-field appearance="outline" class="form-input">
+                                <input matInput placeholder="Nhập thương hiệu" formControlName="brand">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Vị trí để hàng</label>
+                            <mat-form-field appearance="outline" class="form-input">
+                                <input matInput placeholder="VD: Khu A, kệ số 4 tầng 2" formControlName="location">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- Variants Checkbox -->
+                    <div class="form-row">
+                        <div class="checkbox-field">
+                            <mat-checkbox formControlName="hasVariants" color="primary">
+                                Phân theo thuộc tính hàng hóa
+                            </mat-checkbox>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Right side: Form fields -->
-            <div class="form-right">
-
-                <!-- Product Name -->
-                <div class="form-row full-width">
-                    <div class="form-field">
-                        <label class="field-label required">Tên sản phẩm*</label>
-                        <mat-form-field appearance="outline" class="form-input">
-                            <input matInput placeholder="Nhập tên sản phẩm" formControlName="name"
-                                [class.error-input]="isFieldInvalid('name')">
-                            <mat-error *ngIf="isFieldInvalid('name')">
-                                <span class="error-text">{{getErrorMessage('name')}}</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <!-- Category, Brand, Location -->
-                <div class="form-row three-columns">
-                    <div class="form-field">
-                        <label class="field-label required">Danh mục*</label>
-                        <mat-form-field appearance="outline" class="form-select">
-                            <mat-select placeholder="Vui lòng chọn danh mục" formControlName="category"
-                                [class.error-input]="isFieldInvalid('category')">
-                                <mat-option *ngFor="let category of categories" [value]="category.value">
-                                    {{category.label}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="isFieldInvalid('category')">
-                                <span class="error-text">{{getErrorMessage('category')}}</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-
-                    <div class="form-field">
-                        <label class="field-label">Thương hiệu</label>
-                        <mat-form-field appearance="outline" class="form-input">
-                            <input matInput placeholder="Nhập thương hiệu" formControlName="brand">
-                        </mat-form-field>
-                    </div>
-
-                    <div class="form-field">
-                        <label class="field-label">Vị trí để hàng</label>
-                        <mat-form-field appearance="outline" class="form-input">
-                            <input matInput placeholder="VD: Khu A, kệ số 4 tầng 2" formControlName="location">
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <!-- Variants Checkbox -->
-                <div class="form-row">
-                    <div class="checkbox-field">
-                        <mat-checkbox formControlName="hasVariants" class="custom-checkbox">
-                            Phân theo thuộc tính hàng hóa
-                        </mat-checkbox>
-                    </div>
-                </div>
-
-                <!-- Import Price, Unit -->
+            <!-- ===== KHỐI 2: GIÁ & TỒN KHO ===== -->
+            <div class="form-section">
+                <!-- Giá nhập, Đơn vị -->
                 <div class="form-row two-columns">
                     <div class="form-field">
-                        <label class="field-label required">Giá nhập*</label>
+                        <label class="field-label required">Giá nhập</label>
                         <mat-form-field appearance="outline" class="form-input">
-                            <input matInput placeholder="0 VND" formControlName="importPrice"
-                                (input)="onPriceInput($event, 'importPrice')"
-                                [class.error-input]="isFieldInvalid('importPrice')">
-                            <mat-error *ngIf="isFieldInvalid('importPrice')">
-                                <span class="error-text">{{getErrorMessage('importPrice')}}</span>
-                            </mat-error>
+                            <input matInput placeholder="0 VND" formControlName="importPrice">
                         </mat-form-field>
                     </div>
-
                     <div class="form-field">
-                        <label class="field-label required">Đơn vị*</label>
+                        <label class="field-label required">Đơn vị</label>
                         <div class="unit-input-group">
                             <mat-form-field appearance="outline" class="unit-input">
-                                <input matInput placeholder="Nhập đơn vị" formControlName="unit"
-                                    [class.error-input]="isFieldInvalid('unit')">
-                                <mat-error *ngIf="isFieldInvalid('unit')">
-                                    <span class="error-text">{{getErrorMessage('unit')}}</span>
-                                </mat-error>
+                                <input matInput placeholder="Nhập đơn vị" formControlName="unit">
                             </mat-form-field>
-                            <button mat-stroked-button type="button" class="add-unit-btn" (click)="openAddUnitDialog()">
+                            <button mat-stroked-button type="button" class="add-unit-btn">
                                 <mat-icon>menu</mat-icon>
                                 <span>Thêm đơn vị</span>
                             </button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Wholesale Price, Barcode -->
+                <!-- Giá bán buôn, Barcode -->
                 <div class="form-row two-columns">
                     <div class="form-field">
-                        <label class="field-label required">Giá bán buôn/bán sỉ*</label>
+                        <label class="field-label required">Giá bán buôn/bán sỉ</label>
                         <mat-form-field appearance="outline" class="form-input">
-                            <input matInput placeholder="0 VND" formControlName="wholesalePrice"
-                                (input)="onPriceInput($event, 'wholesalePrice')"
-                                [class.error-input]="isFieldInvalid('wholesalePrice')">
-                            <mat-error *ngIf="isFieldInvalid('wholesalePrice')">
-                                <span class="error-text">{{getErrorMessage('wholesalePrice')}}</span>
-                            </mat-error>
+                            <input matInput placeholder="0 VND" formControlName="wholesalePrice">
                         </mat-form-field>
                     </div>
-
                     <div class="form-field">
                         <label class="field-label">Barcode</label>
                         <div class="barcode-input-group">
@@ -136,60 +110,48 @@
                                 <input matInput placeholder="Nhập barcode hoặc sử dụng máy scan"
                                     formControlName="barcode">
                             </mat-form-field>
-                            <button mat-icon-button type="button" class="refresh-btn" (click)="generateBarcode()">
+                            <button mat-icon-button type="button" class="refresh-btn">
                                 <mat-icon>refresh</mat-icon>
                             </button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Retail Price, Stock Alert -->
+                <!-- Giá bán lẻ, Cảnh báo tồn kho -->
                 <div class="form-row two-columns">
                     <div class="form-field">
-                        <label class="field-label required">Giá bán lẻ*</label>
+                        <label class="field-label required">Giá bán lẻ</label>
                         <mat-form-field appearance="outline" class="form-input">
-                            <input matInput placeholder="0 VND" formControlName="retailPrice"
-                                (input)="onPriceInput($event, 'retailPrice')"
-                                [class.error-input]="isFieldInvalid('retailPrice')">
-                            <mat-error *ngIf="isFieldInvalid('retailPrice')">
-                                <span class="error-text">{{getErrorMessage('retailPrice')}}</span>
-                            </mat-error>
+                            <input matInput placeholder="0 VND" formControlName="retailPrice">
                         </mat-form-field>
                     </div>
-
                     <div class="form-field">
-                        <label class="field-label required">Số lượng cảnh báo hết hàng*</label>
+                        <label class="field-label required">Số lượng cảnh báo hết hàng</label>
                         <mat-form-field appearance="outline" class="form-input">
-                            <input matInput placeholder="Nhập số lượng cảnh báo" formControlName="stockAlert"
-                                (input)="onNumberInput($event, 'stockAlert')"
-                                [class.error-input]="isFieldInvalid('stockAlert')">
-                            <mat-error *ngIf="isFieldInvalid('stockAlert')">
-                                <span class="error-text">{{getErrorMessage('stockAlert')}}</span>
-                            </mat-error>
+                            <input matInput placeholder="Nhập số lượng cảnh báo" formControlName="stockAlert">
                         </mat-form-field>
                     </div>
                 </div>
+            </div>
 
-                <!-- Bottom checkboxes -->
+            <!-- ===== KHỐI 3: THIẾT LẬP BÁN HÀNG ===== -->
+            <div class="form-section">
                 <div class="form-footer">
                     <div class="checkbox-group">
                         <div class="checkbox-row">
-                            <mat-checkbox formControlName="allowSelling" color="primary"
-                                class="status-checkbox checked">
+                            <mat-checkbox formControlName="allowSelling" color="primary">
                                 Cho phép bán
                             </mat-checkbox>
-                            <mat-checkbox formControlName="fastSell" color="primary" class="status-checkbox checked">
+                            <mat-checkbox formControlName="fastSell" color="primary">
                                 Bán nhanh
                             </mat-checkbox>
                         </div>
                         <div class="checkbox-row">
-                            <mat-checkbox formControlName="lot" color="primary" class="status-checkbox">
+                            <mat-checkbox formControlName="lot" color="primary">
                                 Lô, hạn sử dụng
                             </mat-checkbox>
                         </div>
                     </div>
                 </div>
-
             </div>
         </form>
     </div>
