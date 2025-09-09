@@ -1,27 +1,485 @@
+// ===== VARIABLES =====
+$primary-color: #10b981;
+$primary-hover: #059669;
+$error-color: #ef4444;
+$border-color: #e5e7eb;
+$border-light: #f3f4f6;
+$text-primary: #111827;
+$text-secondary: #6b7280;
+$text-muted: #9ca3af;
+$background-white: #ffffff;
+$background-light: #f9fafb;
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+// ===== CONTAINER =====
 .product-form-container {
     padding: 24px;
+    background-color: $background-light;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 
-    h2 {
-        color: #10b981;
-        margin-bottom: 16px;
+// ===== HEADER =====
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $background-white;
+    padding: 20px 24px;
+    border-radius: 8px;
+    border: 1px solid $border-color;
+    margin-bottom: 20px;
+    box-shadow: $shadow-sm;
+
+    .form-title {
+        font-size: 20px;
+        font-weight: 700; // Chữ đậm theo yêu cầu
+        color: $primary-color;
+        margin: 0;
     }
 
-    p {
-        margin-bottom: 16px;
-        color: #6b7280;
-    }
-
-    button {
-        background: #10b981;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 6px;
-        cursor: pointer;
+    .save-btn {
+        height: 40px;
+        padding: 0 20px;
         font-size: 14px;
+        font-weight: 600;
+        border-radius: 6px;
+
+        .mat-icon {
+            margin-right: 6px;
+            font-size: 18px;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+}
+
+// ===== FORM CONTENT =====
+.form-content {
+    background: $background-white;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 32px;
+    box-shadow: $shadow-sm;
+
+    .product-form {
+        display: flex;
+        gap: 40px;
+    }
+}
+
+// ===== LEFT SIDE - IMAGE UPLOAD =====
+.form-left {
+    flex: 0 0 160px;
+
+    .image-upload-area {
+        width: 160px;
+        height: 160px;
+        border: 2px dashed $border-color;
+        border-radius: 8px;
+        background: $background-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
 
         &:hover {
-            background: #059669;
+            border-color: $primary-color;
+            background: rgba($primary-color, 0.05);
         }
+
+        .image-placeholder {
+            .mat-icon {
+                font-size: 48px;
+                width: 48px;
+                height: 48px;
+                color: $text-muted;
+            }
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+    }
+}
+
+// ===== RIGHT SIDE - FORM FIELDS =====
+.form-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+// ===== FORM ROWS =====
+.form-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+
+    &.full-width .form-field {
+        flex: 1;
+    }
+
+    &.two-columns .form-field {
+        flex: 1;
+    }
+
+    &.three-columns .form-field {
+        flex: 1;
+    }
+}
+
+// ===== FORM FIELDS =====
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .field-label {
+        font-size: 14px;
+        font-weight: 600; // Chữ đậm theo yêu cầu
+        color: $text-primary;
+        margin-bottom: 4px;
+
+        &.required::after {
+            content: '*';
+            color: $error-color;
+            margin-left: 4px;
+            font-weight: 700;
+        }
+    }
+
+    // Form inputs styling
+    .form-input,
+    .form-select {
+        width: 100%;
+
+        ::ng-deep {
+            .mat-form-field-wrapper {
+                padding-bottom: 0;
+            }
+
+            .mat-form-field-flex {
+                height: 48px;
+                align-items: center;
+
+                .mat-form-field-infix {
+                    padding: 12px 16px;
+                    border-top: none;
+
+                    input,
+                    .mat-select {
+                        font-size: 14px;
+                        color: $text-primary;
+                        height: auto;
+
+                        &::placeholder {
+                            color: $text-muted;
+                        }
+                    }
+
+                    // Error state styling
+                    input.error-input,
+                    .mat-select.error-input {
+                        color: $error-color;
+                    }
+                }
+            }
+
+            .mat-form-field-outline {
+
+                .mat-form-field-outline-start,
+                .mat-form-field-outline-gap,
+                .mat-form-field-outline-end {
+                    border-color: $border-color;
+                    border-width: 1px;
+                }
+            }
+
+            &.mat-focused .mat-form-field-outline {
+
+                .mat-form-field-outline-start,
+                .mat-form-field-outline-gap,
+                .mat-form-field-outline-end {
+                    border-color: $primary-color;
+                    border-width: 2px;
+                }
+            }
+
+            // Error state
+            &.mat-form-field-invalid .mat-form-field-outline {
+
+                .mat-form-field-outline-start,
+                .mat-form-field-outline-gap,
+                .mat-form-field-outline-end {
+                    border-color: $error-color !important;
+                    border-width: 2px !important;
+                }
+            }
+
+            .mat-error {
+                font-size: 12px;
+                margin-top: 4px;
+
+                .error-text {
+                    color: $error-color;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}
+
+// ===== UNIT INPUT GROUP =====
+.unit-input-group {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+
+    .unit-input {
+        flex: 1;
+    }
+
+    .add-unit-btn {
+        height: 48px;
+        padding: 0 16px;
+        border: 1px solid $border-color;
+        color: $text-secondary;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+
+        .mat-icon {
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+        &:hover {
+            background: rgba($primary-color, 0.05);
+            border-color: $primary-color;
+            color: $primary-color;
+        }
+    }
+}
+
+// ===== BARCODE INPUT GROUP =====
+.barcode-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+
+    .barcode-input {
+        flex: 1;
+    }
+
+    .refresh-btn {
+        width: 48px;
+        height: 48px;
+        border: 1px solid $border-color;
+        background: $background-white;
+        color: $text-secondary;
+
+        .mat-icon {
+            font-size: 20px;
+        }
+
+        &:hover {
+            background: rgba($primary-color, 0.05);
+            border-color: $primary-color;
+            color: $primary-color;
+        }
+    }
+}
+
+// ===== CHECKBOX STYLING =====
+.checkbox-field {
+    margin: 8px 0;
+
+    .custom-checkbox {
+        ::ng-deep {
+            .mat-checkbox-frame {
+                border-color: $border-color;
+                border-width: 2px;
+                border-radius: 4px;
+            }
+
+            .mat-checkbox-checkmark-path {
+                stroke: white;
+                stroke-width: 2.5;
+            }
+
+            &.mat-checkbox-checked .mat-checkbox-background {
+                background-color: $primary-color;
+                border-color: $primary-color;
+            }
+
+            .mat-checkbox-label {
+                font-size: 14px;
+                font-weight: 500;
+                color: $text-primary;
+                line-height: 1.4;
+            }
+
+            &:hover .mat-checkbox-frame {
+                border-color: $primary-color;
+            }
+        }
+    }
+}
+
+// ===== FORM FOOTER =====
+.form-footer {
+    margin-top: 16px;
+    padding-top: 20px;
+    border-top: 1px solid $border-light;
+
+    .checkbox-group {
+        display: flex;
+        gap: 32px;
+        margin-bottom: 16px;
+        flex-direction: column; // Sắp xếp các hàng theo chiều dọc
+        gap: 12px; // Khoảng cách giữa các hàng
+        margin-bottom: 16px;
+
+        .checkbox-row {
+            display: flex;
+            gap: 32px; // Khoảng cách giữa các checkbox trên cùng một hàng
+        }
+
+        .status-checkbox.mat-primary {
+            // Ghi đè các biến màu CSS của Angular Material để luôn hiển thị màu xanh lá
+            --mdc-checkbox-selected-icon-color: #{$primary-color};
+            --mdc-checkbox-selected-hover-icon-color: #{$primary-color};
+            --mdc-checkbox-selected-focus-icon-color: #{$primary-color};
+            --mdc-checkbox-selected-pressed-icon-color: #{$primary-color};
+
+            // Style cho label
+            .mdc-form-field label {
+                font-size: 14px;
+                font-weight: 500;
+                color: $text-primary;
+            }
+        }
+    }
+
+    .additional-info {
+        .info-text {
+            font-size: 14px;
+            color: $text-secondary;
+            font-weight: 400;
+        }
+    }
+}
+
+// ===== RESPONSIVE DESIGN =====
+@media (max-width: 992px) {
+    .product-form-container {
+        padding: 16px;
+    }
+
+    .form-content {
+        padding: 24px;
+
+        .product-form {
+            flex-direction: column;
+            gap: 24px;
+        }
+    }
+
+    .form-left {
+        flex: none;
+        align-self: center;
+
+        .image-upload-area {
+            width: 120px;
+            height: 120px;
+        }
+    }
+
+    .form-row.three-columns {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+
+        .save-btn {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+
+    .form-content {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .checkbox-group {
+        flex-direction: column;
+        gap: 12px !important;
+    }
+
+    .unit-input-group {
+        flex-direction: column;
+        gap: 12px;
+
+        .add-unit-btn {
+            width: 100%;
+        }
+    }
+
+    .barcode-input-group {
+        flex-direction: column;
+        gap: 12px;
+
+        .refresh-btn {
+            width: 100%;
+        }
+    }
+}
+
+// ===== LOADING STATE =====
+.loading {
+    .save-btn {
+        opacity: 0.7;
+        pointer-events: none;
+
+        &::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            margin-left: 8px;
+        }
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }
