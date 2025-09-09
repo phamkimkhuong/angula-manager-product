@@ -2,26 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter }
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ProductService } from '../../product.service';
-import { Product } from '../product-list/product-list.component';
+import { Product } from '../../../models/product.model';
 
-// Interface cho Product Data
-export interface ProductData {
-    id?: string;
-    name: string;
-    category: string;
-    brand?: string;
-    location?: string;
-    hasVariants: boolean;
-    importPrice: number;
-    unit: string;
-    wholesalePrice: number;
-    barcode?: string;
-    retailPrice: number;
-    stockAlert: number;
-    allowSelling: boolean;
-    fastSell: boolean;
-    image?: string;
-}
 
 // Interface cho Category
 export interface CategoryOption {
@@ -40,7 +22,7 @@ export class ProductFormComponent implements OnInit {
     // Dữ liệu ban đầu khi ở chế độ edit, null khi tạo mới
     @Input() initialData: Product | null = null;
 
-    @Output() formSubmit = new EventEmitter<ProductData>();
+    @Output() formSubmit = new EventEmitter<Product>();
 
     productForm!: FormGroup;
     isLoading = false;
@@ -248,7 +230,7 @@ export class ProductFormComponent implements OnInit {
     }
 
     // Chuẩn bị dữ liệu form
-    private prepareFormData(): ProductData {
+    private prepareFormData(): Product {
         const formValue = this.productForm.value;
 
         return {

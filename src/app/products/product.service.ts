@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ProductData } from './components/product-form/product-form.component';
+import { FirebaseService } from '../service/firebase.service';
+import { Product } from '../models/product.model';
 
 export interface ImageValidationResult {
   isValid: boolean;
@@ -11,7 +12,7 @@ export interface ImageValidationResult {
 })
 export class ProductService {
 
-  constructor() { }
+  constructor(private firebaseService: FirebaseService) { }
 
   // ===== VALIDATION METHODS =====
 
@@ -199,7 +200,7 @@ export class ProductService {
   /**
    * Create new product (simulate API call)
    */
-  async createProduct(productData: ProductData): Promise<ProductData> {
+  async createProduct(productData: Product): Promise<Product> {
     // Simulate API delay
     await this.delay(1000);
 
@@ -222,12 +223,25 @@ export class ProductService {
     if (!priceValidation.isValid) {
       throw new Error(priceValidation.errors.join(', '));
     }
-
-    // Simulate successful creation
-    const createdProduct: ProductData = {
-      ...productData,
+    const createdProduct: Product = {
       id: this.generateProductId(),
+      name: productData.name,
+      category: productData.category,
+      brand: productData.brand || '',
+      location: productData.location || '',
+      hasVariants: productData.hasVariants || false,
+      importPrice: productData.importPrice || 0,
+      unit: productData.unit || '',
+      wholesalePrice: productData.wholesalePrice || 0,
+      barcode: productData.barcode || this.generateBarcode(),
+      retailPrice: productData.retailPrice || 0,
+      stockAlert: productData.stockAlert || 0,
+      allowSelling: productData.allowSelling !== undefined ? productData.allowSelling : true,
+      fastSell: productData.fastSell !== undefined ? productData.fastSell : true
     };
+
+    // Save to Firebase
+    await this.firebaseService.addProduct(createdProduct as any);
 
     // Log for debugging
     console.log('Product created successfully:', createdProduct);
@@ -238,11 +252,11 @@ export class ProductService {
   /**
    * Update existing product (simulate API call)
    */
-  async updateProduct(id: string, productData: Partial<ProductData>): Promise<ProductData> {
+  async updateProduct(id: string, productData: Partial<Product>): Promise<Product> {
     await this.delay(800);
 
     // Simulate update
-    const updatedProduct: ProductData = {
+    const updatedProduct: Product = {
       id,
       name: '',
       category: '',
@@ -264,7 +278,7 @@ export class ProductService {
   /**
    * Get product by ID (simulate API call)
    */
-  async getProductById(id: string): Promise<ProductData | null> {
+  async getProductById(id: string): Promise<Product | null> {
     await this.delay(500);
 
     // Simulate product not found

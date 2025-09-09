@@ -1,17 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-
-// Interface cho Product
-export interface Product {
-  id: string;
-  image: string;
-  name: string;
-  unit: string;
-  barcode: string;
-  category: string;
-  brand: string;
-  price: number;
-}
+import { Product } from '../../../models/product.model';
 
 @Component({
   selector: 'app-product-list',
@@ -25,58 +14,7 @@ export class ProductListComponent implements OnInit {
   dataSource = new MatTableDataSource<Product>();
 
   // Dữ liệu fake chính xác như trong ảnh
-  private readonly SAMPLE_PRODUCTS: Product[] = [
-    {
-      id: '1',
-      image: '',
-      name: 'A017-Giày Vải Gấu Bịt Đầu(Size 13)',
-      unit: 'cái',
-      barcode: '6923388230637',
-      category: 'GIÀY,DÉP CHO BÉ',
-      brand: '',
-      price: 55000
-    },
-    {
-      id: '2',
-      image: '',
-      name: 'A017-Giày Vải Gấu Bịt Đầu(Size 14)',
-      unit: 'đôi',
-      barcode: '6971028880039',
-      category: 'GIÀY,DÉP CHO BÉ',
-      brand: '',
-      price: 55000
-    },
-    {
-      id: '3',
-      image: '',
-      name: 'A017-Giày Vải Gấu Bịt Đầu(Size 15)',
-      unit: 'c',
-      barcode: '070074118659',
-      category: 'GIÀY,DÉP CHO BÉ',
-      brand: '',
-      price: 55000
-    },
-    {
-      id: '4',
-      image: '',
-      name: 'A13-Giày Gấu Nâu 1982(Size 17)',
-      unit: '',
-      barcode: '1378567516523',
-      category: 'GIÀY,DÉP CHO BÉ',
-      brand: '',
-      price: 110000
-    },
-    {
-      id: '5',
-      image: '',
-      name: 'A13-Giày Gấu Nâu 1982(Size 17)',
-      unit: '',
-      barcode: '1378567516523',
-      category: 'GIÀY,DÉP CHO BÉ',
-      brand: '',
-      price: 110000
-    }
-  ];
+  private readonly SAMPLE_PRODUCTS: Product[] = [];
 
   ngOnInit(): void {
     this.loadProducts();
