@@ -1,0 +1,149 @@
+<div class="product-list-container">
+  <!-- Toolbar chính -->
+  <div class="product-toolbar">
+    <!-- Tiêu đề và tìm kiếm -->
+    <div class="toolbar-left">
+      <h1 class="page-title">Danh sách sản phẩm</h1>
+      <div class="search-box">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <input matInput placeholder="Tìm kiếm tên sản phẩm, mã vạch..." (input)="applyFilter($event)">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Dropdown ở giữa -->
+    <div class="toolbar-center">
+      <mat-form-field appearance="outline" class="category-dropdown">
+        <mat-label>Tất cả</mat-label>
+        <mat-select>
+          <mat-option value="all">Tất cả</mat-option>
+          <mat-option value="shoes">Giày dép cho bé</mat-option>
+          <mat-option value="clothing">Quần áo</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Các nút hành động -->
+    <div class="toolbar-right">
+      <button mat-stroked-button class="action-btn export-btn">
+        <mat-icon>upload</mat-icon>
+        Xuất dữ liệu
+      </button>
+      <button mat-stroked-button class="action-btn import-btn">
+        <mat-icon>grid_view</mat-icon>
+        Tạo dữ liệu
+      </button>
+      <button mat-flat-button color="primary" class="add-btn" routerLink="add">
+        <mat-icon>add</mat-icon>
+        Thêm
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="product-tabs">
+    <div class="tab-container">
+      <button class="tab-item active">Cho bán</button>
+      <button class="tab-item">Không cho bán</button>
+    </div>
+  </div>
+
+  <!-- Nội dung bảng -->
+  <div class="table-section">
+    <!-- Tổng số sản phẩm -->
+    <div class="table-summary">
+      <span>Tổng <strong>1403</strong> sản phẩm</span>
+    </div>
+
+    <!-- Bảng dữ liệu -->
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="product-table">
+
+        <!-- Cột Hình ảnh -->
+        <ng-container matColumnDef="image">
+          <th mat-header-cell *matHeaderCellDef class="col-image">Hình ảnh</th>
+          <td mat-cell *matCellDef="let product" class="col-image">
+            <div class="image-placeholder">
+              <mat-icon>image</mat-icon>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Cột Tên sản phẩm -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="col-name sortable">
+            <div class="header-with-sort">
+              <span>Tên sản phẩm</span>
+              <mat-icon class="sort-arrow">keyboard_arrow_up</mat-icon>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let product" class="col-name">
+            <a href="#" class="product-name">{{product.name}}</a>
+          </td>
+        </ng-container>
+
+        <!-- Cột Đơn vị -->
+        <ng-container matColumnDef="unit">
+          <th mat-header-cell *matHeaderCellDef class="col-unit">Đơn vị</th>
+          <td mat-cell *matCellDef="let product" class="col-unit">
+            <mat-form-field appearance="outline" class="unit-dropdown">
+              <mat-select [value]="product.unit">
+                <mat-option value="cai">cái</mat-option>
+                <mat-option value="doi">đôi</mat-option>
+                <mat-option value="chiec">chiếc</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Cột Barcode -->
+        <ng-container matColumnDef="barcode">
+          <th mat-header-cell *matHeaderCellDef class="col-barcode">Barcode</th>
+          <td mat-cell *matCellDef="let product" class="col-barcode">{{product.barcode}}</td>
+        </ng-container>
+
+        <!-- Cột Danh mục -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef class="col-category sortable">
+            <div class="header-with-sort">
+              <span>Danh mục</span>
+              <mat-icon class="sort-arrow">keyboard_arrow_up</mat-icon>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let product" class="col-category">{{product.category}}</td>
+        </ng-container>
+
+        <!-- Cột Thương hiệu -->
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef class="col-brand sortable">
+            <div class="header-with-sort">
+              <span>Thương hiệu</span>
+              <mat-icon class="sort-arrow">keyboard_arrow_up</mat-icon>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let product" class="col-brand">{{product.brand}}</td>
+        </ng-container>
+
+        <!-- Cột Giá bán -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef class="col-price">Giá bán</th>
+          <td mat-cell *matCellDef="let product" class="col-price">
+            <span class="price-value">{{product.price | number:'.0-0'}} VND</span>
+          </td>
+        </ng-container>
+
+        <!-- Headers và Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="product-row"></tr>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-section">
+      <mat-paginator [length]="1403" [pageSize]="20" [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+        class="custom-paginator">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

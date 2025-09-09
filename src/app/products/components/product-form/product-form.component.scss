@@ -1,0 +1,27 @@
+.product-form-container {
+    padding: 24px;
+
+    h2 {
+        color: #10b981;
+        margin-bottom: 16px;
+    }
+
+    p {
+        margin-bottom: 16px;
+        color: #6b7280;
+    }
+
+    button {
+        background: #10b981;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+            background: #059669;
+        }
+    }
+}
