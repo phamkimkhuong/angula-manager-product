@@ -202,8 +202,6 @@ export class ProductService {
    * Create new product (simulate API call)
    */
   async createProduct(productData: Product): Promise<Product> {
-    // Simulate API delay
-    await this.delay(1000);
 
     // Simulate validation
     if (!productData.name) {
@@ -225,7 +223,6 @@ export class ProductService {
       throw new Error(priceValidation.errors.join(', '));
     }
     const createdProduct: Product = {
-      id: this.generateProductId(),
       name: productData.name,
       category: productData.category,
       brand: productData.brand || '',
@@ -254,8 +251,6 @@ export class ProductService {
    * Update existing product (simulate API call)
    */
   async updateProduct(id: string, productData: Partial<Product>): Promise<Product> {
-    await this.delay(800);
-
     // Simulate update
     const updatedProduct: Product = {
       id,
@@ -280,8 +275,6 @@ export class ProductService {
    * Get product by ID (simulate API call)
    */
   async getProductById(id: string): Promise<Product | null> {
-    await this.delay(500);
-
     // Simulate product not found
     if (id === 'not-found') {
       return null;
@@ -308,27 +301,11 @@ export class ProductService {
   /**
    * Get all products (simulate API call)
    */
-  async getAllProducts(): Promise<Observable<Product[]>> {
+  getAllProducts(): Observable<Product[]> {
     return this.firebaseService.getProducts();
   }
 
   // ===== UTILITY METHODS =====
-
-  /**
-   * Generate unique product ID
-   */
-  private generateProductId(): string {
-    const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 1000);
-    return `PROD_${timestamp}_${random}`;
-  }
-
-  /**
-   * Utility method to create delay (for API simulation)
-   */
-  private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
 
   /**
    * Get available categories

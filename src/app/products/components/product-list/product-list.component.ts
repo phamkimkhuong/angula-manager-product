@@ -31,9 +31,9 @@ export class ProductListComponent implements OnInit {
     this.loadProducts();
   }
 
-  async loadProducts(): Promise<void> {
+  loadProducts(): void {
     try {
-      const productsObservable = await this.productService.getAllProducts();
+      const productsObservable = this.productService.getAllProducts();
       productsObservable.subscribe(products => {
         this.products = products; // Lưu data gốc
         this.filteredProducts = [...products]; // Copy để lọc

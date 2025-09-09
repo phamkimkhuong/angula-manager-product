@@ -182,7 +182,8 @@ export class ProductFormComponent implements OnInit {
         // Create preview
         const reader = new FileReader();
         reader.onload = (e) => {
-            this.selectedImagePreview = e.target?.result as string;
+            this.selectedImagePreview = "";
+            // e.target?.result as string;
         };
         reader.readAsDataURL(file);
     }
