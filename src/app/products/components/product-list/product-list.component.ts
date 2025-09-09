@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '../../../models/product.model';
+import { ProductService } from '../../product.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -9,21 +11,39 @@ import { Product } from '../../../models/product.model';
 })
 export class ProductListComponent implements OnInit {
 
+  constructor(private productService: ProductService) { }
+
+  // Biến cho tìm kiếm
+  searchQuery: string = '';
+
   // Cấu hình bảng
   displayedColumns: string[] = ['image', 'name', 'unit', 'barcode', 'category', 'brand', 'price'];
   dataSource = new MatTableDataSource<Product>();
 
-  // Dữ liệu fake chính xác như trong ảnh
-  private readonly SAMPLE_PRODUCTS: Product[] = [];
+  // Khai báo biến giữ dữ liệu gốc
+  products: Product[] = [];
+  filteredProducts: Product[] = [];
+
+  products$: Promise<Observable<Product[]>>;
 
   ngOnInit(): void {
+    // Thay đổi cách gọi và xử lý dữ liệu
     this.loadProducts();
   }
 
-  // Load dữ liệu sản phẩm
-  loadProducts(): void {
-    this.dataSource.data = this.SAMPLE_PRODUCTS;
+  async loadProducts(): Promise<void> {
+    try {
+      const productsObservable = await this.productService.getAllProducts();
+      productsObservable.subscribe(products => {
+        this.products = products; // Lưu data gốc
+        this.filteredProducts = [...products]; // Copy để lọc
+        this.dataSource.data = this.filteredProducts; // Gán cho dataSource
+      });
+    } catch (error) {
+      console.error('Error loading products:', error);
+    }
   }
+
 
   // Xử lý tìm kiếm
   applyFilter(event: Event): void {
@@ -55,11 +75,6 @@ export class ProductListComponent implements OnInit {
     // Logic import dữ liệu
   }
 
-  // Thêm sản phẩm mới
-  addProduct(): void {
-    console.log('Navigating to add product...');
-    // Navigation được xử lý bởi routerLink trong template
-  }
 
   // Sắp xếp dữ liệu
   sortData(column: string): void {
@@ -91,14 +106,17 @@ export class ProductListComponent implements OnInit {
   // Thay đổi danh mục
   onCategoryChange(category: string): void {
     console.log('Category changed to:', category);
-    // Logic lọc theo danh mục
+
     if (category === 'all') {
-      this.dataSource.data = this.SAMPLE_PRODUCTS;
+      this.filteredProducts = [...this.products];
     } else {
-      this.dataSource.data = this.SAMPLE_PRODUCTS.filter(product =>
+      this.filteredProducts = this.products.filter(product =>
         product.category.toLowerCase().includes(category.toLowerCase())
       );
     }
+
+    // Cập nhật dataSource sau khi lọc
+    this.dataSource.data = this.filteredProducts;
   }
 
   // Format giá tiền VND

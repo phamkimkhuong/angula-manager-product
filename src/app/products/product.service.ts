@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../service/firebase.service';
 import { Product } from '../models/product.model';
+import { Observable } from 'rxjs/internal/Observable';
 
 export interface ImageValidationResult {
   isValid: boolean;
@@ -303,6 +304,12 @@ export class ProductService {
       allowSelling: true,
       fastSell: true
     };
+  }
+  /**
+   * Get all products (simulate API call)
+   */
+  async getAllProducts(): Promise<Observable<Product[]>> {
+    return this.firebaseService.getProducts();
   }
 
   // ===== UTILITY METHODS =====

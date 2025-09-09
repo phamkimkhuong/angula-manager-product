@@ -10,7 +10,7 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import AuthProvider = firebase.auth.AuthProvider;
 import { IFirebaseWriteResult } from '../models/firebaseQuery.model';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { increment } from 'firebase/firestore';
 import localforage from 'localforage';
 import { Platform } from '@angular/cdk/platform';
@@ -63,8 +63,18 @@ export class FirebaseService {
    * Lấy tất cả sản phẩm từ collection 'products'.
    * @returns Observable chứa mảng sản phẩm.
    */
-  getProducts() {
+  getProducts(): Observable<Product[]> {
     return this.productCollection.valueChanges({ idField: 'id' });
+  }
+  // --- READ BY ID ---
+  /**
+   * Lấy thông tin sản phẩm dựa trên ID.
+   * @param id ID của sản phẩm cần lấy
+   * @return Promise chứa thông tin sản phẩm hoặc null nếu không tìm thấy.
+   * */
+  async getProductById(id: string): Promise<Product | null> {
+    const doc = await this.productCollection.doc(id).get().toPromise();
+    return doc?.exists ? (doc.data() as Product) : null;
   }
   // --- UPDATE ---
   /**
