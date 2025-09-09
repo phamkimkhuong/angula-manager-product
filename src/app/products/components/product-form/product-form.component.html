@@ -64,7 +64,7 @@
                     <!-- Variants Checkbox -->
                     <div class="form-row">
                         <div class="checkbox-field">
-                            <mat-checkbox formControlName="hasVariants" color="primary">
+                            <mat-checkbox *ngIf="mode === 'create'" formControlName="hasVariants" color="primary">
                                 Phân theo thuộc tính hàng hóa
                             </mat-checkbox>
                         </div>

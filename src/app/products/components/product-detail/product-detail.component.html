@@ -1,1 +1,15 @@
-<p>product-detail works!</p>
+<div class="product-detail-container">
+    <!-- Header riêng của trang Detail -->
+    <div class="detail-header">
+        <h1>Thông tin sản phẩm</h1>
+        <div class="actions">
+            <button mat-flat-button color="primary">Cấu hình in tem</button>
+            <!-- Các nút khác -->
+            <button mat-stroked-button color="warn">Xóa</button>
+        </div>
+    </div>
+
+    <!-- Tái sử dụng ProductFormComponent -->
+    <app-product-form [initialData]="productData" [mode]="'edit'">
+    </app-product-form>
+</div>

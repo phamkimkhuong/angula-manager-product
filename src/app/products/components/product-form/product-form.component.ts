@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ProductService } from '../../product.service';
+import { Product } from '../product-list/product-list.component';
 
 // Interface cho Product Data
 export interface ProductData {
@@ -27,7 +28,6 @@ export interface CategoryOption {
     value: string;
     label: string;
 }
-
 @Component({
     selector: 'app-product-form',
     templateUrl: './product-form.component.html',
@@ -35,6 +35,12 @@ export interface CategoryOption {
 })
 export class ProductFormComponent implements OnInit {
     @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+    // Chế độ form: 'create' hoặc 'edit'
+    @Input() mode: 'create' | 'edit' = 'create';
+    // Dữ liệu ban đầu khi ở chế độ edit, null khi tạo mới
+    @Input() initialData: Product | null = null;
+
+    @Output() formSubmit = new EventEmitter<ProductData>();
 
     productForm!: FormGroup;
     isLoading = false;

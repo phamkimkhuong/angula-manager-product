@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'edit/:id', // <-- Route /products/edit/:id
-        component: ProductFormComponent
+        component: ProductDetailComponent
       }
     ]
   }

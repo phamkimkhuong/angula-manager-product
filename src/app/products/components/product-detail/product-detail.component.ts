@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent {
-
+  productData: any = {}; // Define productData property
 }
